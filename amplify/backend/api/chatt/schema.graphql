@@ -1,0 +1,38 @@
+type User @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}]){
+  id: ID!
+  username: String!
+  conversations: [UserConversation] @connection(keyName:"byUserId", fields: ["id"])
+}
+
+type UserConversation @model 
+@key(name: "byConversionId", fields: ["conversationId", "userId"])
+@key(name: "byUserId", fields:["userId", "conversationId"]){
+  id: ID!
+  userId: ID!
+  conversationId: ID!
+  user: User @connection(fields: ["userId"]) 
+  conversation: Conversation @connection(fields: ["conversationId"])
+}
+
+type Conversation @model @auth(rules: [{allow: owner, ownerField: "members"}]){
+  id: ID!
+  members: [String]
+  users: [UserConversation] @connection(keyName: "byConversionId", fields: ["id"])
+  messages: [Message] @connection(keyName: "byConversionId", fields:["id"])
+}
+
+type Message @model @auth(rules: [{allow: owner, operations: [create, update, delete]}]) @key(name:"byConversionId", fields:["conversationId", "createdAt"]){
+  id: ID!
+  userId: ID!
+  user: User @connection(fields: ["userId"])
+  content: String
+  conversationId: ID!
+  conversation: Conversation @connection(fields: ["conversationId"])
+  createdAt: String
+}
+
+type Subscription {
+  onCreateMessageByConversationId(conversationId: ID!): Message
+  @aws_subscribe(mutations:["createMessage"])
+}
+
