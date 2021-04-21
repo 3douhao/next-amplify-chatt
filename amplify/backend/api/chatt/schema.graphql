@@ -18,7 +18,7 @@ type Conversation @model @auth(rules: [{allow: owner, ownerField: "members"}]){
   id: ID!
   members: [String]
   users: [UserConversation] @connection(keyName: "byConversionId", fields: ["id"])
-  messages: [Message] @connection(keyName: "byConversionId", fields:["id"])
+  messages: [Message] @connection(keyName:"byConversionId", fields:["id"])
 }
 
 type Message @model @auth(rules: [{allow: owner, operations: [create, update, delete]}]) @key(name:"byConversionId", fields:["conversationId", "createdAt"]){
@@ -36,3 +36,4 @@ type Subscription {
   @aws_subscribe(mutations:["createMessage"])
 }
 
+ 

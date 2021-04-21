@@ -1,6 +1,6 @@
 {
   "auth": {
-    "chatt35ecd752": {
+    "chattd642d8fe": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -8,7 +8,7 @@
     }
   },
   "api": {
-    "chatt": {
+    "CHATT": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -16,23 +16,12 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authchatt35ecd752"
+              "userPoolId": "authchattd642d8fe"
             }
           },
           "additionalAuthenticationProviders": []
         }
       }
-    }
-  },
-  "hosting": {
-    "amplifyhosting": {
-      "service": "amplifyhosting",
-      "type": "cicd",
-      "lastPushTimeStamp": "2021-04-20T08:33:10.198Z"
-    },
-    "S3AndCloudFront": {
-      "service": "S3AndCloudFront",
-      "providerPlugin": "awscloudformation"
     }
   }
 }
